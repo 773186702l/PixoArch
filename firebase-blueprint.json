@@ -1,0 +1,140 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information and roles.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["admin", "architect", "client"] },
+        "avatarUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "fullName", "email", "role"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Architectural project in the gallery.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "modelUrl": { "type": "string", "description": "URL to 3D model file if any" },
+        "gallery": { "type": "array", "items": { "type": "string" } },
+        "clientTestimonial": { "type": "string" },
+        "clientName": { "type": "string" },
+        "popularity": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "description", "category", "imageUrl"]
+    },
+    "ProjectRequest": {
+      "title": "Project Request",
+      "description": "Request for a new project from a client.",
+      "type": "object",
+      "properties": {
+        "requestId": { "type": "string" },
+        "clientId": { "type": "string" },
+        "clientName": { "type": "string" },
+        "projectType": { "type": "string" },
+        "budget": { "type": "string" },
+        "timeline": { "type": "string" },
+        "description": { "type": "string" },
+        "attachments": { "type": "array", "items": { "type": "string" } },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "adminResponse": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clientId", "projectType", "description", "status"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "System notification for users.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "SiteSettings": {
+      "title": "Site Settings",
+      "description": "Global settings for the platform.",
+      "type": "object",
+      "properties": {
+        "logoUrl": { "type": "string" },
+        "colors": { "type": "object" },
+        "typography": { "type": "string" },
+        "language": { "type": "string" }
+      }
+    },
+    "BlogPost": {
+      "title": "Blog Post",
+      "description": "Updates and articles.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "author": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "TeamMember": {
+      "title": "Team Member",
+      "description": "Information about a company team member.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "description": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "order": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "role", "description"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Internal user profiles."
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Public project gallery."
+    },
+    "/requests/{requestId}": {
+      "schema": "ProjectRequest",
+      "description": "Client project requests."
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "User notifications."
+    },
+    "/settings/global": {
+      "schema": "SiteSettings",
+      "description": "Global platform configurations."
+    },
+    "/blog/{postId}": {
+      "schema": "BlogPost",
+      "description": "Blog articles."
+    },
+    "/team/{memberId}": {
+      "schema": "TeamMember",
+      "description": "Company team members."
+    }
+  }
+}
